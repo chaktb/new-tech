@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auto-Posting 원리와 방법 · new-tech</title>
+<style>
+  :root {
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --border:#30363d;
+    --text:#e6edf3; --muted:#8b949e; --accent:#f5820b; --green:#3fb950;
+    --blue:#58a6ff; --code-bg:#0b0f14;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased}
+  header{padding:48px 24px 28px;border-bottom:1px solid var(--border);text-align:center}
+  header h1{font-size:2rem;letter-spacing:-.02em}
+  header h1 span{color:var(--accent)}
+  header p{color:var(--muted);margin-top:8px}
+  main{max-width:860px;margin:0 auto;padding:32px 24px 64px}
+  .back{display:inline-block;margin-bottom:28px;color:var(--accent);text-decoration:none;font-size:.95rem}
+  .back:hover{text-decoration:underline}
+  h2{font-size:1.4rem;margin:40px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+  h2 .num{color:var(--accent);margin-right:8px}
+  h3{font-size:1.1rem;margin:24px 0 10px;color:var(--blue)}
+  p{margin:12px 0;color:#c9d1d9}
+  ul,ol{margin:12px 0 12px 22px;color:#c9d1d9}
+  li{margin:6px 0}
+  code{background:var(--code-bg);border:1px solid var(--border);border-radius:4px;
+    padding:1px 6px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.88em;color:#f0883e}
+  pre{background:var(--code-bg);border:1px solid var(--border);border-radius:10px;
+    padding:16px 18px;overflow-x:auto;margin:14px 0}
+  pre code{background:none;border:none;padding:0;color:#c9d1d9;font-size:.86rem;line-height:1.6}
+  .callout{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--accent);
+    border-radius:8px;padding:16px 18px;margin:18px 0}
+  .callout.warn{border-left-color:#e3623d}
+  .callout.tip{border-left-color:var(--green)}
+  .callout strong{color:var(--text)}
+  .fig{background:var(--panel);border:1px solid var(--border);border-radius:12px;
+    padding:24px;margin:22px 0;text-align:center}
+  .fig figcaption{color:var(--muted);font-size:.85rem;margin-top:12px}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.92rem}
+  th,td{border:1px solid var(--border);padding:9px 12px;text-align:left}
+  th{background:var(--panel2);color:var(--text)}
+  td{color:#c9d1d9}
+  .stack{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+  .chip{background:var(--panel2);border:1px solid var(--border);border-radius:20px;
+    padding:5px 14px;font-size:.85rem;color:var(--muted)}
+  footer{text-align:center;padding:28px 24px;color:var(--muted);font-size:.82rem;border-top:1px solid var(--border)}
+  a{color:var(--blue)}
+</style>
+</head>
+<body>
+  <header>
+    <h1>Auto-<span>Posting</span> 원리와 방법</h1>
+    <p>매일 아침 자동으로 논문·기사를 수집·요약·게시하는 파이프라인</p>
+  </header>
+
+  <main>
+    <a class="back" href="/">← Home</a>
+
+    <p>이 사이트는 매일 아침 <strong>08:00 (KST)</strong> 에 Si Photonics · PIC · Quantum Computing
+    분야의 새 논문과 기사를 자동으로 수집하고, 로컬 LLM 으로 한국어 요약을 붙여
+    새 페이지로 게시합니다. 사람이 손대지 않아도 매일 콘텐츠가 갱신됩니다.
+    아래는 그 <strong>동작 원리</strong>와 <strong>구축 방법</strong> 정리입니다.</p>
+
+    <h2><span class="num">1.</span>전체 아키텍처</h2>
+    <p>핵심 아이디어는 <strong>실행 주체를 클라우드가 아니라 로컬 서버(DGX Spark)에 둔다</strong>는 점입니다.
+    LLM(Ollama)이 로컬에 있고, 사설망 안에 있어 외부 클라우드에서 접근이 어렵기 때문입니다.
+    Cloudflare 는 단순히 <strong>정적 배포</strong>만 담당합니다.</p>
+
+    <figure class="fig">
+      <svg viewBox="0 0 820 420" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto">
+        <defs>
+          <marker id="arw" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+            <path d="M0,0 L8,3 L0,6 Z" fill="#f5820b"/>
+          </marker>
+          <style>
+            .box{fill:#161b22;stroke:#30363d;stroke-width:1.5;rx:10}
+            .lbl{fill:#e6edf3;font:600 14px -apple-system,sans-serif}
+            .sub{fill:#8b949e;font:11px -apple-system,sans-serif}
+            .grp{fill:none;stroke:#3fb950;stroke-width:1.2;stroke-dasharray:5 4;rx:14}
+            .grplbl{fill:#3fb950;font:600 12px -apple-system,sans-serif}
+            .flow{stroke:#f5820b;stroke-width:2;fill:none;marker-end:url(#arw)}
+          </style>
+        </defs>
+
+        <!-- DGX Spark group -->
+        <rect class="grp" x="20" y="40" width="470" height="340" rx="14"/>
+        <text class="grplbl" x="36" y="62">DGX Spark (zgx-1eba) · local server</text>
+
+        <rect class="box" x="50" y="80" width="180" height="56" rx="10"/>
+        <text class="lbl" x="140" y="104" text-anchor="middle">cron @ 08:00 KST</text>
+        <text class="sub" x="140" y="122" text-anchor="middle">crontab scheduler</text>
+
+        <rect class="box" x="50" y="176" width="180" height="70" rx="10"/>
+        <text class="lbl" x="140" y="200" text-anchor="middle">Python script</text>
+        <text class="sub" x="140" y="218" text-anchor="middle">fetch + filter</text>
+        <text class="sub" x="140" y="234" text-anchor="middle">arXiv API / RSS</text>
+
+        <rect class="box" x="290" y="176" width="170" height="70" rx="10"/>
+        <text class="lbl" x="375" y="200" text-anchor="middle">Ollama LLM</text>
+        <text class="sub" x="375" y="218" text-anchor="middle">gpt-oss:120b</text>
+        <text class="sub" x="375" y="234" text-anchor="middle">Korean summary</text>
+
+        <rect class="box" x="50" y="286" width="410" height="66" rx="10"/>
+        <text class="lbl" x="255" y="310" text-anchor="middle">HTML build + git push</text>
+        <text class="sub" x="255" y="328" text-anchor="middle">posts/YYYY-MM-DD.html · update index.html</text>
+
+        <!-- external -->
+        <rect class="box" x="560" y="120" width="220" height="66" rx="10"/>
+        <text class="lbl" x="670" y="144" text-anchor="middle">GitHub</text>
+        <text class="sub" x="670" y="162" text-anchor="middle">chaktb/new-tech</text>
+
+        <rect class="box" x="560" y="250" width="220" height="66" rx="10"/>
+        <text class="lbl" x="670" y="274" text-anchor="middle">Cloudflare Workers</text>
+        <text class="sub" x="670" y="292" text-anchor="middle">auto build + deploy</text>
+
+        <!-- flows -->
+        <path class="flow" d="M140,136 L140,172"/>
+        <path class="flow" d="M230,211 L286,211"/>
+        <path class="flow" d="M375,246 L375,266 L255,266 L255,282"/>
+        <path class="flow" d="M460,318 L520,318 L520,153 L556,153"/>
+        <text class="sub" x="500" y="300" text-anchor="middle">push</text>
+        <path class="flow" d="M670,186 L670,246"/>
+        <text class="sub" x="710" y="220" text-anchor="middle">detect</text>
+      </svg>
+      <figcaption>Fig 1. End-to-end auto-posting pipeline (local execution → GitHub → Cloudflare)</figcaption>
+    </figure>
+
+    <h2><span class="num">2.</span>왜 이런 구조인가</h2>
+    <p>처음에는 "Cloudflare Cron 이 매일 8시에 실행"하는 방식을 고려했지만, 두 가지 제약이 있었습니다.</p>
+    <ul>
+      <li><strong>Ollama 접근 불가</strong> — LLM 서버가 사설망(Tailscale, <code>100.x</code> 대역) 안에 있어
+      Cloudflare 엣지에서 직접 호출할 수 없습니다.</li>
+      <li><strong>토큰 노출 위험</strong> — GitHub 에 매일 커밋하려면 클라우드 함수에 push 토큰을 심어야 합니다.</li>
+    </ul>
+    <p>그래서 <strong>항상 켜져 있고, Ollama 와 git 이 모두 로컬에 있는 DGX Spark</strong> 에서
+    전 과정을 실행하고, Cloudflare 는 push 를 감지해 정적 배포만 하도록 역할을 나눴습니다.</p>
+
+    <h2><span class="num">3.</span>동작 단계</h2>
+    <h3>Step 1 · 수집 (Fetch)</h3>
+    <p>arXiv API 의 <code>physics.optics</code>, <code>quant-ph</code>, <code>physics.app-ph</code>
+    카테고리를 최신순으로 조회하고, Phys.org 의 optics-photonics / quantum-physics RSS 를 함께 파싱합니다.</p>
+
+    <h3>Step 2 · 필터 (Filter)</h3>
+    <p>제목·초록을 키워드 정규식(<code>silicon photonic</code>, <code>PIC</code>,
+    <code>quantum comput</code>, <code>LNOI</code> 등)으로 걸러 관련 항목만 남기고,
+    최근 30시간 이내·중복 제거 후 상위 N건을 선정합니다.</p>
+
+    <h3>Step 3 · 요약 (Summarize)</h3>
+    <p>각 항목을 로컬 Ollama(<code>gpt-oss:120b</code>)의 <code>/api/generate</code> 로 보내
+    한국어 3문장 이내 요약을 생성합니다. 외부 API 키·비용이 들지 않습니다.</p>
+
+    <h3>Step 4 · 게시 (Publish)</h3>
+    <p><code>public/posts/YYYY-MM-DD.html</code> 를 생성하고,
+    <code>public/index.html</code> 의 <code>&lt;!-- AUTO_CARDS --&gt;</code> 마커 아래에
+    카드 링크를 자동 삽입합니다.</p>
+
+    <h3>Step 5 · 배포 (Deploy)</h3>
+    <p>변경분을 GitHub 에 <code>git push</code> 하면, Cloudflare Workers 가 이를 감지해
+    <code>npx wrangler deploy</code> 로 <code>./public</code> 을 정적 자산으로 배포합니다.
+    1~3분 뒤 사이트에 반영됩니다.</p>
+
+    <h2><span class="num">4.</span>기술 스택</h2>
+    <div class="stack">
+      <span class="chip">Python (urllib · xml)</span>
+      <span class="chip">arXiv API</span>
+      <span class="chip">RSS (Phys.org)</span>
+      <span class="chip">Ollama · gpt-oss:120b</span>
+      <span class="chip">Git / GitHub</span>
+      <span class="chip">Cloudflare Workers</span>
+      <span class="chip">wrangler [assets]</span>
+      <span class="chip">crontab</span>
+    </div>
+
+    <h2><span class="num">5.</span>구축 방법 (재현 절차)</h2>
+
+    <h3>5-1 · Cloudflare 정적 배포 설정</h3>
+    <p>Workers 프로젝트가 정적 파일 디렉토리를 인식하도록 리포 루트에
+    <code>wrangler.toml</code> 을 둡니다.</p>
+    <pre><code>name = "new-tech"
+compatibility_date = "2026-07-08"
+
+[assets]
+directory = "./public"</code></pre>
+    <div class="callout warn">
+      <strong>주의:</strong> 이 설정이 없으면 배포 시
+      <code>Could not detect a directory containing static files</code> 에러가 납니다.
+      정적 파일은 반드시 <code>./public</code> 아래에 두어야 합니다.
+    </div>
+
+    <h3>5-2 · 수집·요약·게시 스크립트</h3>
+    <p><code>scripts/daily_photonics_digest.py</code> 하나가 수집→필터→요약→HTML→push 를 모두 처리합니다.
+    상단 CONFIG 블록에서 소스·모델·경로를 조정합니다.</p>
+    <pre><code>OLLAMA_URL   = "http://localhost:11434"
+OLLAMA_MODEL = "gpt-oss:120b"
+REPO_DIR     = "~/new-tech"
+MAX_ITEMS    = 8
+ARXIV_QUERIES = [
+    "cat:physics.optics AND (silicon photonics OR photonic integrated)",
+    "cat:quant-ph AND (photonic OR integrated OR quantum computing)",
+    "cat:physics.app-ph AND (silicon photonics OR PIC)",
+]</code></pre>
+
+    <h3>5-3 · 매일 실행 (crontab)</h3>
+    <p>DGX Spark 의 시스템 시간대가 KST 이므로 매일 08:00 에 실행합니다.</p>
+    <pre><code>PATH=/usr/bin:/usr/local/bin:/bin
+0 8 * * * /usr/bin/python3 $HOME/new-tech/scripts/daily_photonics_digest.py \
+    &gt;&gt; $HOME/new-tech/digest.log 2&gt;&amp;1</code></pre>
+    <div class="callout tip">
+      <strong>Tip:</strong> cron 은 대화형 셸과 환경이 달라 경로를 못 찾을 수 있으므로
+      <code>PATH</code> 줄과 절대경로(<code>/usr/bin/python3</code>)를 함께 지정하는 것이 안전합니다.
+    </div>
+
+    <h2><span class="num">6.</span>안정성 체크리스트</h2>
+    <table>
+      <tr><th>항목</th><th>확인 방법</th><th>목적</th></tr>
+      <tr><td>Ollama 상시 기동</td><td><code>systemctl is-enabled ollama</code></td><td>새벽 실행 시 요약 보장</td></tr>
+      <tr><td>브랜치 갈라짐 방지</td><td><code>git config pull.rebase false</code></td><td>매일 pull 충돌 예방</td></tr>
+      <tr><td>실행 로그</td><td><code>tail -30 ~/new-tech/digest.log</code></td><td>무인 동작 확인</td></tr>
+      <tr><td>토큰 관리</td><td>fine-grained PAT, 최소 권한</td><td>보안</td></tr>
+    </table>
+
+    <h2><span class="num">7.</span>자주 나는 이슈</h2>
+    <table>
+      <tr><th>증상</th><th>원인</th><th>해결</th></tr>
+      <tr><td>build 실패 (static files)</td><td>wrangler.toml assets 미설정</td><td>[assets] directory = "./public"</td></tr>
+      <tr><td>RSS 404</td><td>피드 경로 오류</td><td>유효 경로로 교체</td></tr>
+      <tr><td>요약 비어 있음</td><td>Ollama 미기동 / 모델 태그 불일치</td><td>ollama list 로 태그 확인</td></tr>
+      <tr><td>push non-fast-forward</td><td>원격/로컬 커밋 갈라짐</td><td>git pull --no-rebase 후 push</td></tr>
+    </table>
+
+    <div class="callout">
+      매일 아침 결과물은 홈의 <a href="/">Digest 카드</a>에서 날짜별로 확인할 수 있습니다.
+      새 항목이 없는 날은 커밋을 건너뛰어 불필요한 배포가 발생하지 않습니다.
+    </div>
+  </main>
+
+  <footer>new-tech · Auto-posting pipeline · arXiv + Phys.org + Ollama → GitHub → Cloudflare</footer>
+</body>
+</html>
