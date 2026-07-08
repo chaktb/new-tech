@@ -50,6 +50,7 @@ ARXIV_QUERIES = [
 RSS_FEEDS = [
     "https://phys.org/rss-feed/physics-news/optics-photonics/",
     "https://phys.org/rss-feed/physics-news/quantum-physics/",
+    "https://www.nature.com/nphoton.rss",   # Nature Photonics (current issue)
 ]
 
 # 제목/초록 필터 키워드 (하나라도 포함되어야 채택)
@@ -109,16 +110,20 @@ def fetch_rss(url):
         return []
 
     out = []
+    # dc namespace (Nature 등에서 사용)
+    DC = "{http://purl.org/dc/elements/1.1/}date"
+    src_name = _source_label(url)
     # RSS 2.0
     for item in root.iter("item"):
         title = (item.findtext("title") or "").strip()
         link = (item.findtext("link") or "").strip()
         desc = re.sub("<[^>]+>", "", item.findtext("description") or "").strip()
         pub_raw = (item.findtext("pubDate") or "").strip()
-        dt = _parse_rss_date(pub_raw)
+        dc_raw = (item.findtext(DC) or "").strip()
+        dt = _parse_rss_date(pub_raw, dc_raw)
         if title and link:
             out.append({"title": title, "abstract": desc[:600], "link": link,
-                        "published": dt, "source": _domain(url)})
+                        "published": dt, "source": src_name})
     # Atom fallback
     if not out:
         ns = {"a": "http://www.w3.org/2005/Atom"}
@@ -127,17 +132,40 @@ def fetch_rss(url):
             link_el = e.find("a:link", ns)
             link = link_el.get("href") if link_el is not None else ""
             desc = re.sub("<[^>]+>", "", e.findtext("a:summary", "", ns) or "").strip()
+            pub_raw = (e.findtext("a:updated", "", ns) or e.findtext("a:published", "", ns) or "").strip()
+            dt = _parse_rss_date("", pub_raw)
             out.append({"title": title, "abstract": desc[:600], "link": link,
-                        "published": datetime.now(timezone.utc), "source": _domain(url)})
+                        "published": dt, "source": src_name})
     return out
 
 
-def _parse_rss_date(s):
+def _source_label(url):
+    d = _domain(url)
+    if "nature.com" in d:
+        return "Nature Photonics"
+    if "phys.org" in d:
+        return "Phys.org"
+    return d
+
+
+def _parse_rss_date(pub_raw, dc_raw=""):
+    # RFC 822 (pubDate)
     for fmt in ("%a, %d %b %Y %H:%M:%S %z", "%a, %d %b %Y %H:%M:%S %Z"):
         try:
-            return datetime.strptime(s, fmt).astimezone(timezone.utc)
+            return datetime.strptime(pub_raw, fmt).astimezone(timezone.utc)
         except ValueError:
             continue
+    # ISO 8601 (dc:date / Atom updated), 예: 2026-07-03T00:00:00Z 또는 2026-07-03
+    if dc_raw:
+        s = dc_raw.replace("Z", "+00:00")
+        for fmt in ("%Y-%m-%dT%H:%M:%S%z", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d"):
+            try:
+                d = datetime.strptime(s, fmt)
+                if d.tzinfo is None:
+                    d = d.replace(tzinfo=timezone.utc)
+                return d.astimezone(timezone.utc)
+            except ValueError:
+                continue
     return datetime.now(timezone.utc)
 
 

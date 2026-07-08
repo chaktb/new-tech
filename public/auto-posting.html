@@ -142,7 +142,8 @@
     <h2><span class="num">3.</span>동작 단계</h2>
     <h3>Step 1 · 수집 (Fetch)</h3>
     <p>arXiv API 의 <code>physics.optics</code>, <code>quant-ph</code>, <code>physics.app-ph</code>
-    카테고리를 최신순으로 조회하고, Phys.org 의 optics-photonics / quantum-physics RSS 를 함께 파싱합니다.</p>
+    카테고리를 최신순으로 조회하고, Phys.org 의 optics-photonics / quantum-physics RSS 와
+    <strong>Nature Photonics</strong> 현재 이슈 RSS 를 함께 파싱합니다.</p>
 
     <h3>Step 2 · 필터 (Filter)</h3>
     <p>제목·초록을 키워드 정규식(<code>silicon photonic</code>, <code>PIC</code>,
@@ -168,6 +169,7 @@
       <span class="chip">Python (urllib · xml)</span>
       <span class="chip">arXiv API</span>
       <span class="chip">RSS (Phys.org)</span>
+      <span class="chip">Nature Photonics</span>
       <span class="chip">Ollama · gpt-oss:120b</span>
       <span class="chip">Git / GitHub</span>
       <span class="chip">Cloudflare Workers</span>
@@ -238,6 +240,6 @@ ARXIV_QUERIES = [
     </div>
   </main>
 
-  <footer>new-tech · Auto-posting pipeline · arXiv + Phys.org + Ollama → GitHub → Cloudflare</footer>
+  <footer>new-tech · Auto-posting pipeline · arXiv + Phys.org + Nature Photonics + Ollama → GitHub → Cloudflare</footer>
 </body>
 </html>
