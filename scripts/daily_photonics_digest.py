@@ -48,8 +48,7 @@ ARXIV_QUERIES = [
 
 # 추가 학술/뉴스 RSS 피드
 RSS_FEEDS = [
-    "https://www.optica.org/en-us/about_optica/newsroom/news_rss/",
-    "https://phys.org/rss-feed/technology-news/photonics/",
+    "https://phys.org/rss-feed/physics-news/optics-photonics/",
     "https://phys.org/rss-feed/physics-news/quantum-physics/",
 ]
 
