@@ -222,7 +222,8 @@ def summarize(item):
 
 
 # ---------- HTML 생성 ----------
-def build_post_html(items, date_str):
+def build_post_html(items, date_str, seq=1):
+    suffix = "" if seq == 1 else f" ({seq})"
     cards = []
     for it in items:
         summ = html.escape(it.get("summary_ko", "")) or "<em>요약 없음</em>"
@@ -238,7 +239,7 @@ def build_post_html(items, date_str):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{date_str} · Photonics Digest</title>
+<title>{date_str}{suffix} · Photonics Digest</title>
 <style>
   :root {{ --bg:#0d1117; --panel:#161b22; --border:#30363d; --text:#e6edf3; --muted:#8b949e; --accent:#f5820b; }}
   *{{box-sizing:border-box;margin:0;padding:0}}
@@ -262,29 +263,50 @@ def build_post_html(items, date_str):
 <body>
   <header>
     <h1>Photonics <span>Digest</span></h1>
-    <p>{date_str} · Si Photonics · PIC · Quantum Computing</p>
+    <p>{date_str}{suffix} · Si Photonics · PIC · Quantum Computing</p>
+    <p style="font-size:.8rem;opacity:.7">Generated {datetime.now(KST):%Y-%m-%d %H:%M} KST</p>
   </header>
   <main>
     <a class="back" href="/">← Home</a>
     {"".join(cards) if cards else '<p style="color:var(--muted)">오늘은 새로운 항목이 없습니다.</p>'}
   </main>
-  <footer>Auto-generated daily · arXiv + Optica + Phys.org · Ollama summaries</footer>
+  <footer>Auto-generated daily · arXiv + Phys.org + Nature Photonics · Ollama summaries</footer>
 </body>
 </html>
 """
 
 
-def update_index(repo_dir, date_str, count):
+def next_post_slot(posts_dir, date_str):
+    """같은 날 재실행 시 덮어쓰지 않고 다음 회차 파일명을 반환.
+
+    반환: (파일명, 회차)
+      1회차 -> ("2026-07-09.html", 1)
+      2회차 -> ("2026-07-09-2.html", 2)
+      3회차 -> ("2026-07-09-3.html", 3) ...
+    """
+    first = f"{date_str}.html"
+    if not os.path.exists(os.path.join(posts_dir, first)):
+        return first, 1
+    n = 2
+    while True:
+        name = f"{date_str}-{n}.html"
+        if not os.path.exists(os.path.join(posts_dir, name)):
+            return name, n
+        n += 1
+
+
+def update_index(repo_dir, filename, date_str, count, seq):
     """index.html 의 <!-- AUTO_CARDS --> 마커 바로 아래에 새 카드 삽입 (중복 방지)."""
     idx_path = os.path.join(repo_dir, "public", "index.html")
     with open(idx_path, encoding="utf-8") as f:
         content = f.read()
 
-    href = f"/posts/{date_str}.html"
+    href = f"/posts/{filename}"
     if href in content:  # 이미 있으면 스킵
         return
+    label = f"{date_str} Digest" if seq == 1 else f"{date_str} Digest ({seq})"
     card = (f'\n      <a class="dl-card" href="{href}">\n'
-            f'        <h3>{date_str} Digest</h3>\n'
+            f'        <h3>{label}</h3>\n'
             f'        <p>{count}건 · Si Photonics · PIC · Quantum</p>\n'
             f'      </a>')
     marker = "<!-- AUTO_CARDS -->"
@@ -297,7 +319,7 @@ def update_index(repo_dir, date_str, count):
 
 
 # ---------- git push ----------
-def git_push(repo_dir, date_str):
+def git_push(repo_dir, date_str, seq=1):
     def run(*args):
         return subprocess.run(["git", "-C", repo_dir, *args],
                               check=True, capture_output=True, text=True)
@@ -309,7 +331,8 @@ def git_push(repo_dir, date_str):
     if not status:
         log("변경 사항 없음 — 커밋/푸시 스킵")
         return False
-    run("commit", "-m", f"Daily digest {date_str}")
+    msg = f"Daily digest {date_str}" if seq == 1 else f"Daily digest {date_str} ({seq})"
+    run("commit", "-m", msg)
     run("push", GIT_REMOTE, GIT_BRANCH)
     return True
 
@@ -345,12 +368,13 @@ def main():
 
     posts_dir = os.path.join(REPO_DIR, "public", "posts")
     os.makedirs(posts_dir, exist_ok=True)
-    with open(os.path.join(posts_dir, f"{date_str}.html"), "w", encoding="utf-8") as f:
-        f.write(build_post_html(items, date_str))
-    update_index(REPO_DIR, date_str, len(items))
-    log("HTML 생성 완료")
+    filename, seq = next_post_slot(posts_dir, date_str)
+    with open(os.path.join(posts_dir, filename), "w", encoding="utf-8") as f:
+        f.write(build_post_html(items, date_str, seq))
+    update_index(REPO_DIR, filename, date_str, len(items), seq)
+    log(f"HTML 생성 완료 -> posts/{filename} (회차 {seq})")
 
-    if git_push(REPO_DIR, date_str):
+    if git_push(REPO_DIR, date_str, seq):
         log("git push 완료 — Cloudflare 자동 배포 대기")
     log("=== 종료 ===")
 

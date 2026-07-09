@@ -158,6 +158,12 @@
     <p><code>public/posts/YYYY-MM-DD.html</code> 를 생성하고,
     <code>public/index.html</code> 의 <code>&lt;!-- AUTO_CARDS --&gt;</code> 마커 아래에
     카드 링크를 자동 삽입합니다.</p>
+    <div class="callout tip">
+      <strong>덮어쓰기 방지:</strong> 같은 날 여러 번 실행해도 기존 게시물을 덮어쓰지 않습니다.
+      이미 <code>2026-07-09.html</code> 이 있으면 <code>2026-07-09-2.html</code>,
+      <code>2026-07-09-3.html</code> … 순으로 새 파일을 만들고,
+      홈에는 <code>2026-07-09 Digest (2)</code> 처럼 회차를 붙여 모두 표시합니다.
+    </div>
 
     <h3>Step 5 · 배포 (Deploy)</h3>
     <p>변경분을 GitHub 에 <code>git push</code> 하면, Cloudflare Workers 가 이를 감지해
