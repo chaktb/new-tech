@@ -173,23 +173,65 @@ def _domain(url):
     return urllib.parse.urlparse(url).netloc.replace("www.", "")
 
 
+# ---------- 게시 이력 (중복 방지) ----------
+def _norm_link(url):
+    """arXiv 버전(v1,v2)·쿼리스트링·http/https 차이를 흡수한 정규화 키."""
+    u = (url or "").strip()
+    u = re.sub(r"^https?://", "", u)
+    u = u.split("?")[0].split("#")[0].rstrip("/")
+    u = re.sub(r"^(www\.|export\.)", "", u)
+    # arXiv abs/2607.00001v2 -> abs/2607.00001
+    u = re.sub(r"(arxiv\.org/abs/[\d.]+)v\d+$", r"\1", u)
+    return u.lower()
+
+
+def _norm_title(t):
+    return re.sub(r"\W+", "", (t or "").lower())[:80]
+
+
+def load_published_history(posts_dir):
+    """기존 posts/*.html 에서 이미 게시된 링크·제목을 수집."""
+    links, titles = set(), set()
+    if not os.path.isdir(posts_dir):
+        return links, titles
+    for fn in os.listdir(posts_dir):
+        if not fn.endswith(".html"):
+            continue
+        try:
+            with open(os.path.join(posts_dir, fn), encoding="utf-8") as f:
+                html_txt = f.read()
+        except Exception:
+            continue
+        for m in re.finditer(r'<h2><a href="([^"]+)"[^>]*>(.*?)</a></h2>', html_txt, re.S):
+            links.add(_norm_link(html.unescape(m.group(1))))
+            titles.add(_norm_title(html.unescape(re.sub("<[^>]+>", "", m.group(2)))))
+    return links, titles
+
+
 # ---------- 필터 ----------
-def filter_items(items):
+def filter_items(items, seen_links=None, seen_titles_prev=None):
     now = datetime.now(timezone.utc)
     cutoff = now - timedelta(hours=LOOKBACK_HOURS)
-    seen_titles = set()
+    seen_links = set(seen_links or ())
+    seen_titles = set(seen_titles_prev or ())
     kept = []
+    skipped_dup = 0
     for it in items:
         if it["published"] < cutoff:
             continue
         text = f"{it['title']} {it['abstract']}"
         if not KEYWORDS.search(text):
             continue
-        key = re.sub(r"\W+", "", it["title"].lower())[:80]
-        if key in seen_titles:
+        lk = _norm_link(it["link"])
+        tk = _norm_title(it["title"])
+        if lk in seen_links or tk in seen_titles:   # 이전 회차 + 이번 실행 내 중복
+            skipped_dup += 1
             continue
-        seen_titles.add(key)
+        seen_links.add(lk)
+        seen_titles.add(tk)
         kept.append(it)
+    if skipped_dup:
+        log(f"  이미 게시된 항목 {skipped_dup}건 제외")
     kept.sort(key=lambda x: x["published"], reverse=True)
     return kept[:MAX_ITEMS]
 
@@ -342,6 +384,19 @@ def main():
     date_str = datetime.now(KST).strftime("%Y-%m-%d")
     log(f"=== Daily Photonics Digest {date_str} 시작 ===")
 
+    posts_dir = os.path.join(REPO_DIR, "public", "posts")
+    os.makedirs(posts_dir, exist_ok=True)
+
+    # 원격 최신 게시물까지 이력에 반영되도록 먼저 pull
+    try:
+        subprocess.run(["git", "-C", REPO_DIR, "pull", "--quiet", GIT_REMOTE, GIT_BRANCH],
+                       check=True, capture_output=True, text=True)
+    except Exception as e:
+        log(f"git pull 경고(계속 진행): {e}")
+
+    seen_links, seen_titles = load_published_history(posts_dir)
+    log(f"기존 게시 이력: {len(seen_links)}건")
+
     raw = []
     for q in ARXIV_QUERIES:
         try:
@@ -353,21 +408,19 @@ def main():
             log(f"arXiv 실패: {e}")
     for feed in RSS_FEEDS:
         got = fetch_rss(feed)
-        log(f"RSS {_domain(feed)} -> {len(got)}건")
+        log(f"RSS {_source_label(feed)} -> {len(got)}건")
         raw += got
 
-    items = filter_items(raw)
-    log(f"필터 후 {len(items)}건 채택")
+    items = filter_items(raw, seen_links, seen_titles)
+    log(f"필터 후 {len(items)}건 채택 (새 기사만)")
     if not items:
-        log("채택 항목 없음 — 종료")
+        log("새로운 항목 없음 — 게시 스킵, 종료")
         return
 
     for i, it in enumerate(items, 1):
         log(f"[{i}/{len(items)}] 요약 중: {it['title'][:60]}")
         it["summary_ko"] = summarize(it)
 
-    posts_dir = os.path.join(REPO_DIR, "public", "posts")
-    os.makedirs(posts_dir, exist_ok=True)
     filename, seq = next_post_slot(posts_dir, date_str)
     with open(os.path.join(posts_dir, filename), "w", encoding="utf-8") as f:
         f.write(build_post_html(items, date_str, seq))
