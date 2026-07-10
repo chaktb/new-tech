@@ -36,7 +36,7 @@ OLLAMA_ENABLE = True                                   # False 면 요약 생략
 
 MAX_ITEMS         = 8      # 하루 최대 게시 항목 수
 ARXIV_MAX_PER_CAT = 40     # arXiv 카테고리별 검색 개수 (필터 전)
-LOOKBACK_HOURS    = 30     # 최근 N시간 내 항목만 (매일 실행 기준 여유 6h)
+LOOKBACK_HOURS    = 60     # 최근 N시간 내 항목만 (중복은 게시 이력으로 별도 차단)
 KST               = timezone(timedelta(hours=9))
 
 # arXiv 검색 카테고리 + 키워드
