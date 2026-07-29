@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-07-30 · Photonics Digest</title>
+<style>
+  :root { --bg:#0d1117; --panel:#161b22; --border:#30363d; --text:#e6edf3; --muted:#8b949e; --accent:#f5820b; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;line-height:1.65}
+  header{padding:40px 24px 20px;border-bottom:1px solid var(--border);text-align:center}
+  header h1{font-size:1.8rem;letter-spacing:-.02em}
+  header h1 span{color:var(--accent)}
+  header p{color:var(--muted);margin-top:6px}
+  main{max-width:820px;margin:0 auto;padding:28px 24px}
+  .paper{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:22px;margin-bottom:16px}
+  .paper:hover{border-color:var(--accent)}
+  .paper-src{color:var(--accent);font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+  .paper h2{font-size:1.12rem;line-height:1.4;margin-bottom:10px}
+  .paper h2 a{color:var(--text);text-decoration:none}
+  .paper h2 a:hover{color:var(--accent);text-decoration:underline}
+  .summary{color:var(--muted);font-size:.95rem}
+  .back{display:inline-block;margin-bottom:20px;color:var(--accent);text-decoration:none}
+  footer{text-align:center;padding:24px;color:var(--muted);font-size:.82rem;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+  <header>
+    <h1>Photonics <span>Digest</span></h1>
+    <p>2026-07-30 · Si Photonics · PIC · Quantum Computing</p>
+    <p style="font-size:.8rem;opacity:.7">Generated 2026-07-30 08:01 KST</p>
+  </header>
+  <main>
+    <a class="back" href="/">← Home</a>
+    
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2607.25998v1" target="_blank" rel="noopener">Observable Estimation in the Absence of Classical Verification</a></h2>
+      <p class="summary">클래식 검증이 불가능한 상황에서 양자 결과의 신뢰성을 확보하기 위해, 저자들은 독립적인 검증 프레임워크를 제시한다. 이 프레임워크는 고전 시뮬레이션이 어려운 반스크램블링(semi‑scrambling) 동역학 모델에 적용되며, 새로운 측정 기법인 *operator Loschmidt echo*와 양자 휴리스틱(quantum heuristics) 실험들을 체계적으로 설계해 기본 가정을 검증하고 관측값에 대한 높은 신뢰도를 제공한다. 또한, 장치 노이즈를 정밀히 특성화·조작함으로써 양자 추정치의 정확도 경계를 설정하는 방법으로 확장된다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2607.25941v1" target="_blank" rel="noopener">Sampling hard circuits with verifiably high fidelity</a></h2>
+      <p class="summary">구조화된 회로를 도입해 복잡도 이론적 난이도와 양자 오류 억제를 동시에 만족시키며, 회로 구조와 코드 신드롬 측정을 통해 실험적 충실도를 인증한다. 70개의 물리 큐비트와 97개의 전체 큐비트를 이용해 깊이 70의 Clifford 회로에 468개의 T 게이트를 삽입한 실험에서, 신드롬 사후 선택을 통해 게이트 오류율을 10배 억제하고 충실도 하한을 95% 신뢰도로 0.284로 확보하였다. 이 방법은 스테빌라이저 상태를 매직 상태로 전환하면서 오류 검출 기반 충실도 증명서를 유지하는 체계적인 설계이다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2607.25865v1" target="_blank" rel="noopener">OmniQEC: discovering practical quantum error-correcting codes by an AI scientist</a></h2>
+      <p class="summary">OmniQEC는 대형 언어 모델(LLM) 기반 오케스트레이터가 코드 생성·스크리닝·시그마 추출 합성·디코더 회로 평가를 순환적으로 수행하도록 설계된 AI 과학자로, 저비용 코드 수준 프록시를 이용한 빠른 탐색 루프와 물리 기반 회로 평가를 수행하는 느린 루프를 결합한 “slow‑fast” 워크플로우를 구현한다. 네 가지 qLDPC 구성군과 세 가지 LLM 백엔드, 각각 14개의 물리 큐비트 예산을 대상으로 실험한 결과, OmniQEC가 발견한 코드들은 물리 큐비트 수가 증가함에 따라 논리 오류 억제가 지속적으로 향상되었으며, 98·240 물리 큐비트 예산에서 각각 $[\![72,12,6]\!]$, $[\![144,12,12]\!]$ BB 코드보다 우수한 성능을 보였다. 이 코드들은 하드웨어 친화적이며 실제 양자 프로세서에 바로 적용 가능한 실용적인 양자 오류 정정 코드로서 독립적인 연구 가치도 갖는다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2607.25834v1" target="_blank" rel="noopener">Lowering the implementation barrier of neutral-atom quantum computing with agentic workflows</a></h2>
+      <p class="summary">중성 원자 양자 컴퓨터(Pasqal QPU)에서 이론 프로토콜을 자동으로 구현·실행하는 에이전트 기반 워크플로를 제시했으며, 연구자는 핵심 검증 단계만 직접 수행한다. 세 가지 물리·최적화 사례에서 에이전트가 논문·특허 수준의 설계부터 QPU 실험까지 하룻밤 만에 수행했지만, 부적절한 관측값 선택과 잘못된 하드웨어 진단 등 오류는 도메인 전문가 검토를 통해 발견되었다. 또한 633편의 Rydberg‑array 논문을 분석한 결과, 현재 QPU로 구현 가능한 논문이 절반에 달하며, 나머지는 특정 하드웨어 업그레이드가 필요함을 확인했다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2607.25769v1" target="_blank" rel="noopener">Time-Reversal Invariant Topological Photonic Alloy</a></h2>
+      <p class="summary">전통적인 포톤결정에서는 전체 격자의 공간 반전 대칭을 깨야 QSH·QVH 효과와 전송 갭을 만들 수 있었지만, 본 연구는 무작위 도핑으로 만든 포톤 합금에서 z축 미러 대칭과 면내 대칭을 국소적으로만 깨면 충분히 위상 갭을 열어 QSH와 QVH 위상 전이를 유도할 수 있음을 보였다. 반사 위상 와인딩 방법을 통한 정량적 위상 분석 결과, 도핑 농도 임계값은 시스템 크기가 커질수록 급격히 감소해 열역학적 한계에서는 거의 필요하지 않다. 따라서 전역 구조 변형 없이 무작위 도핑만으로 원하는 위상 전이를 구현할 수 있어, 포톤 합금 플랫폼은 재구성 가능하고 후공정 적응성이 높은 위상 광학 소자를 설계하는 새로운 길을 제시한다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2607.25704v1" target="_blank" rel="noopener">Verifiable blind probabilistic error cancellation</a></h2>
+      <p class="summary">Verifiable blind probabilistic error cancellation (VBPEC)은 완전 악의적인 적을 상정한 최초의 보안 검증 프로토콜로, quantum error mitigation (QEM) 기법인 probabilistic error cancellation (PEC)을 composable security 프레임워크 안에서 암호학적 자원으로 형식화한다. 프로토콜은 완전 블라인드 상태에서 PEC를 수행하며, 양자 공간 오버헤드 없이 지수적으로 작은 보안 오류와 QEM 절차에 따른 추가 반복만을 요구한다. 이를 위해 트랩 기반 검증을 통계적 테스트로 확장하고, 노이즈를 능동적으로 취소함으로써 보안성을 손상시키지 않으면서 고확률로 정확히 완화된 추정값을 받아들일 수 있다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2607.25699v1" target="_blank" rel="noopener">Counterfactual Quantum Sensing: What Interaction-Free Measurement Can and Cannot Buy</a></h2>
+      <p class="summary">엘리추어-바이드만 인터페로미터는 물체의 투과율을 추정할 때 직접 전송 탐사와 비교해 피셔 정보가 정확히 절반이며, 흡수된 광자당 제공되는 피셔 정보는 두 방법이 동일해 투명도 측정에서는 이점이 없다. 그러나 물체 존재 여부와 같은 이진 판별에서는 흡수된 광자당 체르노프 정보가 사이클 수와 그 로그에 비례해 거의 선형적으로 증가해, 사이클당 기생 손실이 작을수록 이득이 커지고 최적 사이클 수와 결론적 질의 횟수는 손실률의 역비례로 결정된다. 이 제한은 인터페로미터에만 국한되지 않으며, 메모리리스·비분산 광자-물체 상호작용 전반에 적용되는 일반적인 결과이다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2607.25688v1" target="_blank" rel="noopener">Antichiral hinge states in a higher-order photonic nodal ring semimetal</a></h2>
+      <p class="summary">Antichiral hinge states가 3차원 자이로자성 광결정으로 만든 고차원 노달링 세미금속에서 관측되었으며, 두 평행한 1차원 경계에서 동일한 방향으로 단일 전파가 이루어지고 금속 산란체에 대해서도 강인한 전송을 보인다. 근거리 스캔 측정으로 확인된 이 힌지 모드는 광층을 추가·제거함으로써 위치를 재구성할 수 있으며, 동시에 antichiral drumhead 표면 상태와 함께 1차·2차 위상 경계 상태의 계층 구조를 나타낸다. 이 결과는 antichiral 현상을 고차원 위상 세미금속으로 확장시켜, 견고하고 재구성 가능한 광 라우팅에 활용 가능성을 제시한다.</p>
+    </article>
+  </main>
+  <footer>Auto-generated daily · arXiv + Phys.org + Nature Photonics · Ollama summaries</footer>
+</body>
+</html>
