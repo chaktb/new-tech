@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-10-07 · Photonics Digest</title>
+<style>
+  :root { --bg:#0d1117; --panel:#161b22; --border:#30363d; --text:#e6edf3; --muted:#8b949e; --accent:#f5820b; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;line-height:1.65}
+  header{padding:40px 24px 20px;border-bottom:1px solid var(--border);text-align:center}
+  header h1{font-size:1.8rem;letter-spacing:-.02em}
+  header h1 span{color:var(--accent)}
+  header p{color:var(--muted);margin-top:6px}
+  main{max-width:820px;margin:0 auto;padding:28px 24px}
+  .paper{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:22px;margin-bottom:16px}
+  .paper:hover{border-color:var(--accent)}
+  .paper-src{color:var(--accent);font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+  .paper h2{font-size:1.12rem;line-height:1.4;margin-bottom:10px}
+  .paper h2 a{color:var(--text);text-decoration:none}
+  .paper h2 a:hover{color:var(--accent);text-decoration:underline}
+  .summary{color:var(--muted);font-size:.95rem}
+  .back{display:inline-block;margin-bottom:20px;color:var(--accent);text-decoration:none}
+  footer{text-align:center;padding:24px;color:var(--muted);font-size:.82rem;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+  <header>
+    <h1>Photonics <span>Digest</span></h1>
+    <p>2026-10-07 · Si Photonics · PIC · Quantum Computing</p>
+    <p style="font-size:.8rem;opacity:.7">Generated 2026-10-07 08:01 KST</p>
+  </header>
+  <main>
+    <a class="back" href="/">← Home</a>
+    
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2610.06845v1" target="_blank" rel="noopener">Rewire and reset are all you need: Minimal resources for manipulating non-Abelions</a></h2>
+      <p class="summary">비가환(비아벨리언) anyon을 조작하기 위해서는 ancilla와 측정 없이도 충분히 최소한의 회로 자원만으로 구현할 수 있다. 저자들은 그래프 재배열이라는 다이어그램 계산법을 도입해 두 큐빗 게이트를 기하학적으로 해석하고, 이를 통해 anyon을 순차적인 유니터리 회로로 브레이딩하고, 알려지지 않은 anyon 유형을 퓨전할 때는 단순히 qudit reset만으로 “입력 무관” 퓨전이 가능함을 증명한다. 따라서 기존에 전해 내려오던 ancilla 필요성은 잘못된 믿음이며, 특히 오류 정정에서 reset이 공간·시간 오버헤드 없이 활용될 수 있다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2610.06828v1" target="_blank" rel="noopener">The practical cost of magic state cultivation</a></h2>
+      <p class="summary">마법 상태 배양은 고충실도 비클리포드 자원 상태를 낮은 시공간 오버헤드로 준비하는 방법이지만, 기존 추정은 출력 마법 상태를 파괴하는 무소음 횡단 측정을 전제한다. 저자는 파괴되지 않는 중간 회로 신드롬 정보를 이용하는 개방 경계 포스트선택 기법인 Caliper를 제안해, 이러한 제약 하에서도 기존 방법을 크게 능가하고 일부 경우에는 이전 자원 효율성을 회복한다. 그러나 동일한 시공간 비용에서 논리 오류율이 크게 상승하거나, 동일 오류율을 달성하려면 훨씬 큰 코드와 긴 탈출 단계가 필요함을 보여준다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2610.06820v1" target="_blank" rel="noopener">Designing Group-Valued Codes with Full Regular Low-Weight Bases</a></h2>
+      <p class="summary">고중량 논리 연산자를 피하기 위해, 저중량 완전 정규(Full Regular) 논리 기저를 갖는 그룹값 양자 오류 정정 코드를 설계하는 원칙을 제시한다. 여기서 거리 $d$, 검사 가중치 $w$ 외에 “프레임 폭” $f$(완전 정규 기저를 가능하게 하는 최소 중량 한계)를 새로운 코드 매개변수로 도입하고, 이론적 구조적 장애를 규명한 뒤, $w=10$인 고율 리프트-프로덕트(LP) 코드 $[[1088,128,22]]$($f=22$)와 페어-파티션(PP) 코드 $[[1024,256,24]]$($f\le27$)를 구체적으로 구현한다. $w=11$에서는 PP 구조가 $d=25$($f\le27$) 또는 $d=24$를 달성하도록 확장한다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2610.06812v1" target="_blank" rel="noopener">Protecting Quantum Computers against Untrusted Users</a></h2>
+      <p class="summary">공개된 내결함 양자 컴퓨터가 과학적 활용성을 유지하면서 암호 해독 능력을 제한하도록, 저자들은 양자 서버가 실행 후에만 공개되는 무작위 계산기준 입력과 하나의 지정된 출력 비트를 제공하는 제한된 계산 모델 1/2BQP₁을 제안한다. 이 모델은 DQC1을 포함하면서도 RSA 인수분해와 같은 문제에 대해 다항 시간 적응 요청을 하는 고전 클라이언트가 효율적으로 해결하지 못하도록 보안성을 보장한다(양자 단계가 1비트 읽기로 고전 시뮬레이션 가능하고, 무작위 입력이 합리적 재구성을 통한 공격을 방해함). 또한, 저자들은 양자 스핀 동역학의 고전 예측을 테스트함으로써 1/2BQP₁과 DQC1을 구분할 후보 실험을 제시한다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2610.06792v1" target="_blank" rel="noopener">Error Mitigation From a Single Unmodified Error-Corrected Circuit</a></h2>
+      <p class="summary">최근 연구에서는 오류 정정 중 얻은 신드롬 정보를 활용한 논리 오류 완화(LEM)가 외부 LEM에 비해 실행 시간 오버헤드를 지수적으로 감소시킴을 보였지만, 대부분 실시간 적응 회로가 필요했다. 본 논문은 회로를 전혀 수정하지 않고 신드롬 데이터를 사후 처리하는 오프라인 논리 오류 완화(SOLEM) 프레임워크를 제안하며, 이를 통해 신드롬‑조건부 논리 오류 채널을 이용한 무편향 및 휴리스틱 추정기(오프라인 PEC, ZNE, 전역 회귀 추정기)를 구현한다. SOLEM은 더 강력한 디코더 적용, 동일 데이터로 다중 추정기 구성·최적화, 그리고 논리 오류 특성화가 최소화되는 등 세 가지 주요 장점을 제공한다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2610.06786v1" target="_blank" rel="noopener">Quantum-optimized phase closure for robust interferometric imaging</a></h2>
+      <p class="summary">클로저 위상은 대기 변동에 의한 망원경별 위상 오류를 상쇄해 지상 인터페라메트리 배열에서 이미징을 가능하게 하는데, 동일한 대기 안정 시간창 내에서 최소 세 광자를 공동 측정하면 단일 광자 측정보다 적은 광자 수로 더 정확히 얻을 수 있다. 대규모 배열에서는 모든 이중 스펙트럼(위상이 클로저 위상인 복소량)을 평균 제곱 오차 기준으로 추정할 때, 물리적 가시성 제약으로 정보량이 거의 선형적으로 증가하므로, 최대 세 광자 공동 측정만으로 광자 비용을 \(\tilde{O}(m)\) 수준으로 줄일 수 있다. 반면 순차적 단일 광자 프로토콜은 \(\Omega(m^2)\) 광자를 필요로 하며, 감지 광자 수가 배열 크기에 비례하면 노출 시간을 거의 일정하게 유지할 수 있다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2610.06775v1" target="_blank" rel="noopener">Engineering logical gates with irrep surface codes</a></h2>
+      <p class="summary">IRrep surface codes (ISCs)는 지정된 논리 게이트 집합을 횡단적으로 구현하도록 설계된 2차원 위상 양자 오류 정정 코드이며, 구현되는 게이트는 (i) 유한군을 생성하고 (ii) 불변성을 갖는(즉, 모든 교환 연산자는 항등비례) 조건만 만족하면 된다. 이를 통해 임의의 유한 대각 게이트군, 가역 고전 게이트, 그리고 클리포드 계층의 모든 유한 레벨을 초월하는 논리 게이트를 포함하는 넓은 군을 삽입할 수 있다. 또한 두 가지 충분조건을 만족하는 격자 수술(lattice‑surgery) 프로토콜을 개발해 기존 서피스 코드와 ISC 간에 인코딩 정보를 전송함으로써, 원하는 논리 연산을 기존 서피스‑코드 계산에 체계적으로 통합한다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2610.06760v1" target="_blank" rel="noopener">A classical oracle separation between QMA and QMA(2)</a></h2>
+      <p class="summary">클래식 오라클을 구성해 QMA와 QMA(2)가 구별됨을 보였다. 이 오라클은 그래프의 부호가 있는 간선 제약으로 정의된 분리 가능한 해밀토니안 문제에 기반하며, YES 인스턴스는 제로 에너지 곱 상태가 존재하지만, NO 인스턴스는 반대칭 부분공간을 이용해 얽힌 제로 에너지 상태만 존재하고 곱 상태는 존재하지 않는다. QMA 하한은 압축 오라클 기법을 사용해 제한된 쿼리로 얻은 부분 오라클 기록을 NO 인스턴스로 매핑함으로써 검증자의 동작을 크게 변형시키지 않고 증명한다.</p>
+    </article>
+  </main>
+  <footer>Auto-generated daily · arXiv + Phys.org + Nature Photonics · Ollama summaries</footer>
+</body>
+</html>
