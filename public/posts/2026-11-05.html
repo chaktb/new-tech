@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-11-05 · Photonics Digest</title>
+<style>
+  :root { --bg:#0d1117; --panel:#161b22; --border:#30363d; --text:#e6edf3; --muted:#8b949e; --accent:#f5820b; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;line-height:1.65}
+  header{padding:40px 24px 20px;border-bottom:1px solid var(--border);text-align:center}
+  header h1{font-size:1.8rem;letter-spacing:-.02em}
+  header h1 span{color:var(--accent)}
+  header p{color:var(--muted);margin-top:6px}
+  main{max-width:820px;margin:0 auto;padding:28px 24px}
+  .paper{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:22px;margin-bottom:16px}
+  .paper:hover{border-color:var(--accent)}
+  .paper-src{color:var(--accent);font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+  .paper h2{font-size:1.12rem;line-height:1.4;margin-bottom:10px}
+  .paper h2 a{color:var(--text);text-decoration:none}
+  .paper h2 a:hover{color:var(--accent);text-decoration:underline}
+  .summary{color:var(--muted);font-size:.95rem}
+  .back{display:inline-block;margin-bottom:20px;color:var(--accent);text-decoration:none}
+  footer{text-align:center;padding:24px;color:var(--muted);font-size:.82rem;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+  <header>
+    <h1>Photonics <span>Digest</span></h1>
+    <p>2026-11-05 · Si Photonics · PIC · Quantum Computing</p>
+    <p style="font-size:.8rem;opacity:.7">Generated 2026-11-05 08:02 KST</p>
+  </header>
+  <main>
+    <a class="back" href="/">← Home</a>
+    
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2611.05354v1" target="_blank" rel="noopener">Interpretable Quantum Photonic Generative Models</a></h2>
+      <p class="summary">연속변수(CV) 포톤 회로의 동상 검출을 이용해 상관관계를 학습하는 물리적 생성 모델을 제안하고, 두 모드 스퀴징, 위상 이동, 가변 인터페로미터를 통해 상관 구조를 조절·재분배한다. 회로를 데이터의 피어슨 상관행렬에 맞추어 학습하고, 후처리로 주변 분포를 독립적으로 조정해 금융 자산 로그수익률의 다변량 분포를 재현했으며, 5변수에서는 잔차 &lt;10⁻⁴, 20변수에서는 94 % 이상의 상관 부호와 86 % 이상의 잔차 &lt;0.1을 달성했다. 또한 작은 비선형성을 갖는 Kerr 게이트를 Hubbard‑Stratonovich 전개로 시뮬레이션하는 방법을 개발해 CV 기반 시뮬레이터에 적용 가능하게 함으로써, 해석 가능하고 빠른 샘플링이 가능한 생성 학습 플랫폼으로서 CV 포톤 회로의 가능성을 입증했다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2611.05303v1" target="_blank" rel="noopener">Quantum Advantage has Few Complexity Implications</a></h2>
+      <p class="summary">이 논문은 고전 오라클을 구성해 $\mathsf{P}=\mathsf{NP}$ 또는 $\mathsf{BQP}=\mathsf{QCMA}$ 일 때도 양자성 증명(proofs of quantumness)과 양자 검증자 무관 상태 준비(oblivious state preparation)가 존재할 수 있음을 보인다. 구체적으로 (1) $\mathsf{P}^{\mathcal O}=\mathsf{NP}^{\mathcal O}$, $\mathsf{BQP}^{\mathcal O}=\mathsf{PSPACE}^{\mathcal O}$ 이며 $\mathsf{IP}^{\mathcal O}\subseteq\mathsf{BQP}^{\mathcal O}$ 에 평균적으로 $\mathsf{P}^{\mathcal O}/\text{poly}$ 에 대해 어려운 언어가 존재하고, (2) 단위 오라클 $\mathcal O$ 에 대해 $\mathsf{BQP}^{\mathcal O}=\mathsf{QCMA}^{\mathcal O}$ 이면서 무관 상태 준비가 가능함을 증명한다. 이러한 오라클 구분은 양자 우위가 상대화 증명을 이용한 고전·양자 암호학이나 포스트‑양자 일방향 함수 구축에 활용될 수 없음을 직접적으로 시사한다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2611.05233v1" target="_blank" rel="noopener">DynaMite: Dynamic Measurement Scheduling To Accelerate Fault-Tolerant Quantum Programs</a></h2>
+      <p class="summary">DynaMite는 오류 정정(QEC) 코드의 논리 사이클에서 측정 지연 시간을 고정된 교정값이 아니라, 논리 사이클별 LCT와 LER을 동시에 최소화할 수 있는 최적값으로 실시간 선택한다. 논리 사이클마다 오류 예산(허용 가능한 패리티 체크 실패 수)이 다르므로, 예산을 충분히 활용하지 않는 사이클에서는 더 빠른 측정을 적용해 전체 프로그램 실행 시간을 단축한다. 이를 통해 측정 지연이 차지하는 43‑86%의 LCT 비중을 감소시키고, 논리 오류율(LER)을 낮출 수 있다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2611.05046v1" target="_blank" rel="noopener">Reopening the one clean qubit case of a semi-grand challenge</a></h2>
+      <p class="summary">스콧 아론슨이 제시한 “한 개의 클린 큐빗” 모델이 항상 분리된 혼합 상태에 머무는 경우 고전 컴퓨터로 다항시간 시뮬레이션이 가능하다는 주장에 대해, 저자들은 순수 큐빗 하나가 최대 혼합된 3‑큐빗 레지스터에 대해 세 개의 게이트를 순차적으로 제어하는 회로를 제시하고, 전체 유니터리가 모든 네 큐빗을 완전히 분리된 상태로 유지하지만 이전 증명에서 요구된 형태로 표현될 수 없음을 보였다. 또한 동일한 유니터리를 얻는 연속시간 구현을 제시하고, 이를 균일한 회로 패밀리로 확장하여 기존 증명의 구멍을 정확히 짚어냈다. 그러나 이러한 회로 자체는 고전적으로 효율적으로 시뮬레이션 가능하므로 아론슨의 원 질문은 여전히 해결되지 않았으며, 해당 반례는 “한 개의 클린 큐빗” 모델에 대한 반그랜드 챌린지를 다시 열어두었다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2611.05030v1" target="_blank" rel="noopener">On Revolutionizing Power Systems: Suitability of Quantum Computing-Ready Pipelines for Stochastic Unit Commitment Optimization</a></h2>
+      <p class="summary">본 논문은 IEEE 118‑bus 시스템을 대상으로, 발전기 규모와 24시간 스케줄링을 포함한 제약을 부울 논리 페널티로 압축한 Quadratic Unconstrained Binary Optimization (QUBO) 형태로 결정론적·확률론적 UC 문제를 재구성하고, 이를 클래식·양자 영감·양자 어닐링·하이브리드 양자‑클래식 솔버가 연계된 파이프라인에 적용한다. 27,730개의 불확실성 시나리오를 다루기 위해 divide‑and‑conquer 전략과 Quantum Computing Monte Carlo (QCMC) 시뮬레이션을 도입해 컴파일 시간을 최대 100배 단축했으며, 실험 결과 하이브리드 양자 방식이 기존 클래식 기준과 동일한 정확도를 유지하면서 stochastic UC 실행 시간을 40.76 h에서 14.79 h로 크게 감소시켰다. 순수 양자 어닐링은 소규모 시스템에만 적용 가능했으며, 0.22 %–2.18 % 수준의 인코딩 오류와 제약 위반을 보였다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2611.05009v1" target="_blank" rel="noopener">Periodically poled lithium niobate with submicrometer periodicity using electric-field poling technique</a></h2>
+      <p class="summary">전기장 폴링 기법으로 저저항성 실리콘 위에 얇게 증착된 단결정 리튬니오베이트(LN) 박막(수 µm~수십 nm)에서 전층 편극 전이가 가능한 고품질 주기적 폴링 구조(PPLN)를 구현했으며, 코어시브 필드는 Kay‑Dunn 스케일링을 따르고 도메인 폭은 박막 두께가 증가할수록 확대된다. 전극 폭에 관계없이 동일 두께에서는 도메인 폭이 일정하게 유지되며, 6 µm에서 200 nm까지의 주기 범위의 PPLN을 성공적으로 제작하였다. 이 결과는 전극 설계와 도메인 폭 보정에 대한 가이드를 제공해, 고집적 비선형 포토닉 소자를 위한 LN 박막 도메인 엔지니어링의 실용적 확장을 가능하게 한다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2611.04964v1" target="_blank" rel="noopener">Substantially Improved Rate and Distance for Addressable Transversal Phase Gates</a></h2>
+      <p class="summary">본 논문은 클리포드 계층의 고정 레벨 $h\ge3$에 대해 완전 주소 지정이 가능한 전이형 위상 게이트를 구현하는 비이진 순환 인코딩을 제시하고, 논리 위상 제어를 레이트·거리 설계와 분리함으로써 두 가지 구성법을 제시한다. 다항식 시간 대수기하학적 방법은 레이트와 상대 거리 모두에 대해 $52/(675h)$라는 하한을 보장하고, 지수 시간 카운팅 기반 방법은 이를 약 2.86배 향상시킨다. 또한, 완전 주소 지정 전이형 단일 큐비트 위상 게이트를 지원하는 코드의 상한을 제시하며, 순환 인코딩 내에서는 이 상한이 앞서 얻은 하한의 약 1.28배에 불과함을 보이고, 물리 큐비트 48·90개 규모의 $T$‑게이트 지원 코드를 구체적으로 구현한다.</p>
+    </article>
+    <article class="paper">
+      <div class="paper-src">arXiv</div>
+      <h2><a href="http://arxiv.org/abs/2611.04909v1" target="_blank" rel="noopener">Fast verification of fault tolerant magic state preparation circuits with the CNOT + T gate set</a></h2>
+      <p class="summary">마법 상태 준비 회로의 결함 허용성을 검증하기 어려운 문제를 해결하고자, CNOT + T 게이트 집합을 이용한 결함 허용 마법 상태 준비 방식을 제안한다. Pauli 결함의 전파 특성을 분석해 Clifford 회로와 유사한 검증 규칙을 도출하고, 이를 구현한 Comb 라이브러리를 통해 거리 3·5 회로를 노트북에서 몇 분 만에 검증하였다. Comb을 이용해 새롭게 발견한 거리 5 마법 상태 회로는 회로 수준 잡음 시뮬레이션 결과와 일치하여 검증 정확성을 확인하였다.</p>
+    </article>
+  </main>
+  <footer>Auto-generated daily · arXiv + Phys.org + Nature Photonics · Ollama summaries</footer>
+</body>
+</html>
